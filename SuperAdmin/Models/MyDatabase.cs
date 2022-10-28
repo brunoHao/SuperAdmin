@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using SuperAdmin.Models.Shop;
 
 namespace SuperAdmin.Models
 {
@@ -21,5 +22,10 @@ namespace SuperAdmin.Models
         {
             base.OnModelCreating(model);
         }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Cart> Carts { get; set; }
+        public DbSet<Recieve> Recieves { get; set; }
+
     }
 }
