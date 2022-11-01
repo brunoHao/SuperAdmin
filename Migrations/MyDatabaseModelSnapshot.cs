@@ -282,7 +282,8 @@ namespace SuperAdmin.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("CategoryId")
+                    b.Property<int?>("CategoryId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int>("Count")
@@ -304,8 +305,6 @@ namespace SuperAdmin.Migrations
                         .HasColumnType("float");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
                 });
@@ -339,6 +338,28 @@ namespace SuperAdmin.Migrations
                     b.HasIndex("CartId");
 
                     b.ToTable("Recieves");
+                });
+
+            modelBuilder.Entity("SuperAdmin.Models.Shop.Tracking", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("recieveId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("recieveId");
+
+                    b.ToTable("Trackings");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -403,17 +424,6 @@ namespace SuperAdmin.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("SuperAdmin.Models.Shop.Product", b =>
-                {
-                    b.HasOne("SuperAdmin.Models.Shop.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-                });
-
             modelBuilder.Entity("SuperAdmin.Models.Shop.Recieve", b =>
                 {
                     b.HasOne("SuperAdmin.Models.Shop.Cart", "Cart")
@@ -423,6 +433,17 @@ namespace SuperAdmin.Migrations
                         .IsRequired();
 
                     b.Navigation("Cart");
+                });
+
+            modelBuilder.Entity("SuperAdmin.Models.Shop.Tracking", b =>
+                {
+                    b.HasOne("SuperAdmin.Models.Shop.Recieve", "recieve")
+                        .WithMany()
+                        .HasForeignKey("recieveId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("recieve");
                 });
 #pragma warning restore 612, 618
         }

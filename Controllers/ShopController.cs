@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Org.BouncyCastle.Asn1.X509;
 using SuperAdmin.Models;
 using SuperAdmin.Models.Shop;
 
@@ -92,7 +90,7 @@ namespace SuperAdmin.Controllers
             {
                 return NotFound();
             }
-           
+
             else if (!ModelState.IsValid)
             {
                 IFormCollection _form = Request.Form;
@@ -147,5 +145,96 @@ namespace SuperAdmin.Controllers
             var product = _myDatabase.Products.Where(p => p.Id == id).FirstOrDefault();
             return View(product);
         }
+
+        [HttpGet]
+        public IActionResult Tracking()
+        {
+            return View();
+        }
+
+
+        //[BindProperty]
+        //public Tracking Tracking { get; set; }
+        [HttpPost]
+        public IActionResult Tracking(Tracking model)
+        {
+
+
+            if (ModelState.IsValid)
+            {
+                var Recieve = _myDatabase.Recieves.Where(r => r.Id == model.RecieveId).FirstOrDefault();
+
+                var tracking = new Tracking()
+                {
+                    Status = model.Status,
+                    RecieveId = Recieve.Id
+                };
+                _myDatabase.Trackings.Add(tracking);
+                _myDatabase.SaveChanges();
+
+
+
+                if (tracking.Status == "Success")
+                {
+                    Recieve.status = tracking.Status;
+                    _myDatabase.Recieves.Update(Recieve);
+                    _myDatabase.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+
+                if (tracking.Status == "Pending")
+                {
+                    Recieve.status = tracking.Status;
+                    _myDatabase.Recieves.Update(Recieve);
+                    _myDatabase.SaveChanges();
+                    return RedirectToAction("Index");
+
+                }
+
+                if (model.Status == "Fail")
+                {
+                    Recieve.status = tracking.Status;
+                    _myDatabase.Recieves.Update(Recieve);
+                    _myDatabase.SaveChanges();
+
+
+                    //var recievedetail = _myDatabase.RecieveDetails.Where(rd => rd.RecieveId == Recieve.Id).ToList();
+
+                    var recievedetail = _myDatabase.RecieveDetails.Where(rd => rd.RecieveId == model.RecieveId).ToList();
+                    ////Cập nhật Count cho Product = SLT - SLD.
+                    var product = _myDatabase.Products.ToList();
+
+                    ////list product của product có trong productdetails.
+                    var countProductInCart = (from p in product
+                                              join rd in recievedetail
+                                              on
+                                              p.Id equals rd.ProductId
+                                              where rd.RecieveId == model.RecieveId
+                                              select p).ToList();
+
+
+                    if(countProductInCart.Count == recievedetail.Count )
+                    {
+                        foreach(var item in countProductInCart)
+                        {
+                            foreach(var item2 in recievedetail)
+                            {
+                                if (item.Id == item2.ProductId)
+                                {
+                                    var pro = _myDatabase.Products.Where(p => p.Id == item2.ProductId).FirstOrDefault();
+                                    pro.Count = item.Count + item2.Count;
+
+                                    _myDatabase.Products.Update(pro);
+                                    _myDatabase.SaveChanges();
+                                }    
+                            }    
+                        }    
+                    }    
+                }
+            }
+            return RedirectToAction("Index");
+
+        }
+
     }
 }
