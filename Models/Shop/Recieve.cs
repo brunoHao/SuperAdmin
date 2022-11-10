@@ -9,7 +9,6 @@ namespace SuperAdmin.Models.Shop
         [Key]
         public int Id { get; set; }
 
-        [Required]
         public int Qty { get; set; }
 
         [Required]
@@ -20,7 +19,11 @@ namespace SuperAdmin.Models.Shop
 
         public DateTime Date { get; set; }
 
+        public double? Phone { get; set; }
+
         [Required]
-        public Cart? Cart { get; set; }
+        public string? UserId { get; set; }
+
+        public string? status { get; set; }
     }
 }
