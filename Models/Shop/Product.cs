@@ -24,6 +24,8 @@ namespace SuperAdmin.Models.Shop
 
         [Required]
         public int? CategoryId { get; set; }
+        [Required]
+        public Category? Category { get; set; }
 
         [Required]
         public string? Image { get; set; }

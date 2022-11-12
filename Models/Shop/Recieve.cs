@@ -23,7 +23,11 @@ namespace SuperAdmin.Models.Shop
 
         [Required]
         public string? UserId { get; set; }
+        public AppUser? User { get; set; }
+
 
         public string? status { get; set; }
+        public Coupon? Coupon { get; set; }
+
     }
 }

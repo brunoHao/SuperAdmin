@@ -13,6 +13,8 @@ namespace SuperAdmin.Models.Shop
 
         [Required]
         public int ProductId { get; set; }
+        public Product? Product { get; set; }
+
 
         [Required]
         public int? RecieveId { get; set; }

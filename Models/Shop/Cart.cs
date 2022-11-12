@@ -15,8 +15,6 @@ namespace SuperAdmin.Models.Shop
 
         [Required]
         public int Qty { get; set; }
-
-        
         public double Price { get; set; }
 
         [Required]
@@ -27,6 +25,8 @@ namespace SuperAdmin.Models.Shop
 
         [Required]
         public string? UserId { get; set; }
+
+        public AppUser? User { get; set; }
 
         public Product? Product { get; set; }
     }
