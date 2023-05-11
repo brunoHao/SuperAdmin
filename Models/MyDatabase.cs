@@ -22,12 +22,18 @@ namespace SuperAdmin.Models
         {
             base.OnModelCreating(model);
         }
-        public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<Cart> Carts { get; set; }
-        public DbSet<Recieve> Recieves { get; set; }
-        public DbSet<Tracking> Trackings { get; set; }
-        public DbSet<RecieveDetail> RecieveDetails { get; set; }
+        public DbSet<genPromoRight> genPromoRights { get; set; }
+        public DbSet<OrderDetails> OrderDetails { get; set; }
+        public DbSet<Payment> Payments { get; set; }
+        public DbSet<PaymentType> PaymentTypes { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Review> Reviews { get; set; }
+        public DbSet<ShippingDetails> ShippingDetails { get; set; }
+        public DbSet<SubCategory> SubCategories { get; set; }
+        public DbSet<Suppliers> Suppliers { get; set; }
+        public DbSet<Wishlist> Wishlists { get; set; }
+        public DbSet<Order> Orders { get; set; }
 
     }
 }

@@ -220,146 +220,503 @@ namespace SuperAdmin.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("SuperAdmin.Models.Shop.Cart", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Qty")
-                        .HasColumnType("int");
-
-                    b.Property<double?>("Total")
-                        .IsRequired()
-                        .HasColumnType("float");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("Carts");
-                });
-
             modelBuilder.Entity("SuperAdmin.Models.Shop.Category", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("CategoryID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryID"), 1L, 1);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(225)
-                        .HasColumnType("nvarchar(225)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.Property<string>("Picture1")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Picture2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("isActive")
+                        .HasColumnType("bit");
+
+                    b.HasKey("CategoryID");
 
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("SuperAdmin.Models.Shop.Product", b =>
+            modelBuilder.Entity("SuperAdmin.Models.Shop.genPromoRight", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("PromoRightID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PromoRightID"), 1L, 1);
 
-                    b.Property<int?>("CategoryId")
-                        .IsRequired()
-                        .HasColumnType("int");
-
-                    b.Property<int>("Count")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Desc")
+                    b.Property<string>("AltText")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Image")
-                        .IsRequired()
+                    b.Property<string>("ImageURL")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OfferTag")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("isDeleted")
+                        .HasColumnType("bit");
+
+                    b.HasKey("PromoRightID");
+
+                    b.ToTable("genPromoRights");
+                });
+
+            modelBuilder.Entity("SuperAdmin.Models.Shop.Order", b =>
+                {
+                    b.Property<int>("OrderID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderID"), 1L, 1);
+
+                    b.Property<bool?>("CancelOrder")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("CustomerID")
+                        .HasColumnType("int");
+
+                    b.Property<bool?>("DIspatched")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("Deliver")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("DeliveryDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("Discount")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("DispatchedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("OrderDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("PaymentID")
+                        .HasColumnType("int");
+
+                    b.Property<bool?>("Shipped")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ShippingDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("ShippingDetailShippingID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ShippingID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Taxes")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TotalAmount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("OrderID");
+
+                    b.HasIndex("PaymentID");
+
+                    b.HasIndex("ShippingDetailShippingID");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("SuperAdmin.Models.Shop.OrderDetails", b =>
+                {
+                    b.Property<int>("OrderDetailsID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderDetailsID"), 1L, 1);
+
+                    b.Property<decimal?>("Discount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("OrderDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("OrderID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("TotalAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("UnitPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("OrderDetailsID");
+
+                    b.HasIndex("OrderID");
+
+                    b.HasIndex("ProductID");
+
+                    b.ToTable("OrderDetails");
+                });
+
+            modelBuilder.Entity("SuperAdmin.Models.Shop.Payment", b =>
+                {
+                    b.Property<int>("PaymentID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentID"), 1L, 1);
+
+                    b.Property<decimal?>("Balance")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("CreditAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("DebitAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("PaymentDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("PaymentTypePayTypeID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.HasKey("PaymentID");
+
+                    b.HasIndex("PaymentTypePayTypeID");
+
+                    b.ToTable("Payments");
+                });
+
+            modelBuilder.Entity("SuperAdmin.Models.Shop.PaymentType", b =>
+                {
+                    b.Property<int>("PayTypeID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PayTypeID"), 1L, 1);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TypeName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("PayTypeID");
+
+                    b.ToTable("PaymentTypes");
+                });
+
+            modelBuilder.Entity("SuperAdmin.Models.Shop.Product", b =>
+                {
+                    b.Property<int>("ProductID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductID"), 1L, 1);
+
+                    b.Property<bool?>("AddBadge")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("AltText")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CategoryID")
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("Discount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("ImageURL")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LongDescription")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(225)
-                        .HasColumnType("nvarchar(225)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.Property<string>("OfferBadgeClass")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OfferTitle")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal?>("OldPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Picture1")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Picture2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Picture3")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Picture4")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("ProductAvailable")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("QuantityPerUnit")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ShortDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Size")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("SubCategoryID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SupplierID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UnitInStock")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UnitOnOrder")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("UnitPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("UnitWeight")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ProductID");
+
+                    b.HasIndex("CategoryID");
+
+                    b.HasIndex("SubCategoryID");
+
+                    b.HasIndex("SupplierID");
 
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("SuperAdmin.Models.Shop.Recieve", b =>
+            modelBuilder.Entity("SuperAdmin.Models.Shop.Review", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ReviewID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReviewID"), 1L, 1);
 
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("CartId")
+                    b.Property<int?>("CustomerID")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Date")
+                    b.Property<DateTime?>("DateTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Qty")
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ProductID")
                         .HasColumnType("int");
 
-                    b.Property<double>("TotalBill")
-                        .HasColumnType("float");
+                    b.Property<int?>("Rate")
+                        .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<string>("Review1")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("CartId");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.ToTable("Recieves");
+                    b.Property<bool?>("isDelete")
+                        .HasColumnType("bit");
+
+                    b.HasKey("ReviewID");
+
+                    b.HasIndex("ProductID");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Reviews");
                 });
 
-            modelBuilder.Entity("SuperAdmin.Models.Shop.Tracking", b =>
+            modelBuilder.Entity("SuperAdmin.Models.Shop.ShippingDetails", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ShippingID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ShippingID"), 1L, 1);
 
-                    b.Property<string>("Status")
-                        .IsRequired()
+                    b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("recieveId")
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Mobile")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PostCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Province")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ShippingID");
+
+                    b.ToTable("ShippingDetails");
+                });
+
+            modelBuilder.Entity("SuperAdmin.Models.Shop.SubCategory", b =>
+                {
+                    b.Property<int>("SubCategoryID")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SubCategoryID"), 1L, 1);
 
-                    b.HasIndex("recieveId");
+                    b.Property<int>("CategoryID")
+                        .HasColumnType("int");
 
-                    b.ToTable("Trackings");
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Picture1")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Picture2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("isActive")
+                        .HasColumnType("bit");
+
+                    b.HasKey("SubCategoryID");
+
+                    b.HasIndex("CategoryID");
+
+                    b.ToTable("SubCategories");
+                });
+
+            modelBuilder.Entity("SuperAdmin.Models.Shop.Suppliers", b =>
+                {
+                    b.Property<int>("SupplierID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SupplierID"), 1L, 1);
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CompanyName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContactName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContactTitle")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Country")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Fax")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Mobile")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("SupplierID");
+
+                    b.ToTable("Suppliers");
+                });
+
+            modelBuilder.Entity("SuperAdmin.Models.Shop.Wishlist", b =>
+                {
+                    b.Property<int>("WishlistID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WishlistID"), 1L, 1);
+
+                    b.Property<int>("CustomerID")
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("ProductID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool?>("isActive")
+                        .HasColumnType("bit");
+
+                    b.HasKey("WishlistID");
+
+                    b.HasIndex("ProductID");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Wishlists");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -413,37 +770,167 @@ namespace SuperAdmin.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SuperAdmin.Models.Shop.Cart", b =>
+            modelBuilder.Entity("SuperAdmin.Models.Shop.Order", b =>
                 {
-                    b.HasOne("SuperAdmin.Models.Shop.Product", "Product")
+                    b.HasOne("SuperAdmin.Models.Shop.Payment", "Payment")
+                        .WithMany("Orders")
+                        .HasForeignKey("PaymentID");
+
+                    b.HasOne("SuperAdmin.Models.Shop.ShippingDetails", "ShippingDetail")
+                        .WithMany("Orders")
+                        .HasForeignKey("ShippingDetailShippingID");
+
+                    b.HasOne("SuperAdmin.Models.AppUser", "User")
                         .WithMany()
-                        .HasForeignKey("ProductId")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Payment");
+
+                    b.Navigation("ShippingDetail");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("SuperAdmin.Models.Shop.OrderDetails", b =>
+                {
+                    b.HasOne("SuperAdmin.Models.Shop.Order", "Order")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("OrderID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("SuperAdmin.Models.Shop.Product", "Product")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("ProductID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
 
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("SuperAdmin.Models.Shop.Recieve", b =>
+            modelBuilder.Entity("SuperAdmin.Models.Shop.Payment", b =>
                 {
-                    b.HasOne("SuperAdmin.Models.Shop.Cart", "Cart")
-                        .WithMany()
-                        .HasForeignKey("CartId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("SuperAdmin.Models.Shop.PaymentType", "PaymentType")
+                        .WithMany("Payments")
+                        .HasForeignKey("PaymentTypePayTypeID");
 
-                    b.Navigation("Cart");
+                    b.Navigation("PaymentType");
                 });
 
-            modelBuilder.Entity("SuperAdmin.Models.Shop.Tracking", b =>
+            modelBuilder.Entity("SuperAdmin.Models.Shop.Product", b =>
                 {
-                    b.HasOne("SuperAdmin.Models.Shop.Recieve", "recieve")
-                        .WithMany()
-                        .HasForeignKey("recieveId")
+                    b.HasOne("SuperAdmin.Models.Shop.Category", "Category")
+                        .WithMany("Products")
+                        .HasForeignKey("CategoryID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("recieve");
+                    b.HasOne("SuperAdmin.Models.Shop.SubCategory", "SubCategory")
+                        .WithMany("Products")
+                        .HasForeignKey("SubCategoryID");
+
+                    b.HasOne("SuperAdmin.Models.Shop.Suppliers", "Supplier")
+                        .WithMany("Products")
+                        .HasForeignKey("SupplierID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("SubCategory");
+
+                    b.Navigation("Supplier");
+                });
+
+            modelBuilder.Entity("SuperAdmin.Models.Shop.Review", b =>
+                {
+                    b.HasOne("SuperAdmin.Models.Shop.Product", "Product")
+                        .WithMany("Reviews")
+                        .HasForeignKey("ProductID");
+
+                    b.HasOne("SuperAdmin.Models.AppUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Product");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("SuperAdmin.Models.Shop.SubCategory", b =>
+                {
+                    b.HasOne("SuperAdmin.Models.Shop.Category", "Category")
+                        .WithMany("SubCategories")
+                        .HasForeignKey("CategoryID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("SuperAdmin.Models.Shop.Wishlist", b =>
+                {
+                    b.HasOne("SuperAdmin.Models.Shop.Product", "Product")
+                        .WithMany("Wishlists")
+                        .HasForeignKey("ProductID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SuperAdmin.Models.AppUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Product");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("SuperAdmin.Models.Shop.Category", b =>
+                {
+                    b.Navigation("Products");
+
+                    b.Navigation("SubCategories");
+                });
+
+            modelBuilder.Entity("SuperAdmin.Models.Shop.Order", b =>
+                {
+                    b.Navigation("OrderDetails");
+                });
+
+            modelBuilder.Entity("SuperAdmin.Models.Shop.Payment", b =>
+                {
+                    b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("SuperAdmin.Models.Shop.PaymentType", b =>
+                {
+                    b.Navigation("Payments");
+                });
+
+            modelBuilder.Entity("SuperAdmin.Models.Shop.Product", b =>
+                {
+                    b.Navigation("OrderDetails");
+
+                    b.Navigation("Reviews");
+
+                    b.Navigation("Wishlists");
+                });
+
+            modelBuilder.Entity("SuperAdmin.Models.Shop.ShippingDetails", b =>
+                {
+                    b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("SuperAdmin.Models.Shop.SubCategory", b =>
+                {
+                    b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("SuperAdmin.Models.Shop.Suppliers", b =>
+                {
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

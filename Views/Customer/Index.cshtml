@@ -1,0 +1,70 @@
+﻿@model IEnumerable<SuperAdmin.Models.AppUser>
+
+@{
+    ViewBag.Title = "Customer";
+}
+
+
+<br />
+<div class="row">
+
+    <table class="table table-hover table-bordered table-striped">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </th>
+
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                </td>
+
+
+                <td>
+                    <a class="btn btn-sm btn-primary" href="@Url.Action("Edit", "Customer", new { id = item.Id })" aria-label="Edit" data-toggle="tooltip" data-placement="top" title="Edit">
+                        <i class="fa fa-edit" aria-hidden="true"></i>
+                    </a>
+                    <a class="btn btn-sm btn-info" href="@Url.Action("Details", "Customer", new { id = item.Id })" aria-label="Details" data-toggle="tooltip" data-placement="top" title="View Details">
+                        <i class="fa fa-info" aria-hidden="true"></i>
+                    </a>
+                    @using (Html.BeginForm("Delete", "Customer", new { id = item.Id }, FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="form-actions no-color">
+                            <input type="submit" value="Delete" class="btn btn-danger col-md-offset-1" />
+                        </div>
+                    }
+
+                </td>
+            </tr>
+
+        }
+
+    </table>
+</div>
+

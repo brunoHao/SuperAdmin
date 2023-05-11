@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using SuperAdmin.Models;
 using System.Diagnostics;
 
@@ -6,11 +8,17 @@ namespace SuperAdmin.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly UserManager<AppUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
+        private readonly MyDatabase _myDatabase;
+        public HomeController(
+          UserManager<AppUser> userManager,
+          SignInManager<AppUser> signInManager,
+          MyDatabase myDatabase)
         {
-            _logger = logger;
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _myDatabase = myDatabase;
         }
 
         public IActionResult Index()

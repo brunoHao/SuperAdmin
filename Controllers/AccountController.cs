@@ -1,4 +1,4 @@
-﻿using DemoWebTemplate.ExtendMethods;
+﻿using SuperAdmin.ExtendMethods;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

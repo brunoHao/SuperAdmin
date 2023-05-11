@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DemoWebTemplate.Models.Account
+namespace SuperAdmin.Models.Account
 {
     public class RegisterViewModel
     {
